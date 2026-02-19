@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - Investment Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary-custom mb-3">Our Blog</h1>
+        <p class="lead text-muted">Insights, tips, and stories from the world of startup investing</p>
+    </div>
+
+    <!-- Featured Post -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card card-custom shadow-sm border-0 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <div class="bg-primary d-flex align-items-center justify-content-center" style="height: 100%; min-height: 300px;">
+                            <i class="fas fa-newspaper fa-5x text-white opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body p-5">
+                            <span class="badge bg-primary mb-3">Featured</span>
+                            <h2 class="fw-bold mb-3">The Future of Startup Investing in 2026</h2>
+                            <p class="text-muted mb-4">
+                                Discover the latest trends and predictions shaping the startup investment landscape. 
+                                From AI-powered due diligence to decentralized funding platforms, learn what's next 
+                                in the world of venture capital.
+                            </p>
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div>
+                                    <p class="mb-0 fw-bold">John Doe</p>
+                                    <p class="mb-0 small text-muted">February 15, 2026 • 5 min read</p>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Posts Grid -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="fw-bold mb-4">Latest Articles</h3>
+        </div>
+
+        <!-- Blog Post 1 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm border-0 h-100">
+                <div class="bg-success d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-chart-line fa-4x text-white opacity-50"></i>
+                </div>
+                <div class="card-body p-4">
+                    <span class="badge bg-success mb-2">Investment Tips</span>
+                    <h5 class="fw-bold mb-3">10 Tips for First-Time Startup Investors</h5>
+                    <p class="text-muted mb-3">
+                        New to startup investing? Here are essential tips to help you make informed decisions 
+                        and build a successful portfolio.
+                    </p>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <small class="text-muted">Jane Smith • Feb 10, 2026</small>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Read Article</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Post 2 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm border-0 h-100">
+                <div class="bg-warning d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-rocket fa-4x text-white opacity-50"></i>
+                </div>
+                <div class="card-body p-4">
+                    <span class="badge bg-warning mb-2">Startup Stories</span>
+                    <h5 class="fw-bold mb-3">How TechVision AI Raised $5M in Series A</h5>
+                    <p class="text-muted mb-3">
+                        An inside look at how one of our platform's success stories secured their Series A funding 
+                        and what you can learn from their journey.
+                    </p>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="rounded-circle bg-warning text-white d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <small class="text-muted">Mike Johnson • Feb 8, 2026</small>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Read Article</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Post 3 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm border-0 h-100">
+                <div class="bg-info d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-lightbulb fa-4x text-white opacity-50"></i>
+                </div>
+                <div class="card-body p-4">
+                    <span class="badge bg-info mb-2">Market Insights</span>
+                    <h5 class="fw-bold mb-3">Q1 2026 Startup Market Analysis</h5>
+                    <p class="text-muted mb-3">
+                        A comprehensive analysis of the startup market trends, funding patterns, and sector 
+                        performance in the first quarter of 2026.
+                    </p>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="rounded-circle bg-info text-white d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <small class="text-muted">Sarah Lee • Feb 5, 2026</small>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Read Article</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Post 4 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm border-0 h-100">
+                <div class="bg-danger d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-shield-alt fa-4x text-white opacity-50"></i>
+                </div>
+                <div class="card-body p-4">
+                    <span class="badge bg-danger mb-2">Risk Management</span>
+                    <h5 class="fw-bold mb-3">Understanding Investment Risk in Startups</h5>
+                    <p class="text-muted mb-3">
+                        Learn how to assess and manage risk when investing in early-stage companies. 
+                        Essential knowledge for every investor.
+                    </p>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <small class="text-muted">David Chen • Feb 3, 2026</small>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Read Article</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Post 5 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm border-0 h-100">
+                <div class="bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-users fa-4x text-white opacity-50"></i>
+                </div>
+                <div class="card-body p-4">
+                    <span class="badge bg-secondary mb-2">Community</span>
+                    <h5 class="fw-bold mb-3">Building a Diverse Investment Portfolio</h5>
+                    <p class="text-muted mb-3">
+                        Diversification is key to successful investing. Learn strategies to build a balanced 
+                        portfolio across different sectors and stages.
+                    </p>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <small class="text-muted">Emma Wilson • Feb 1, 2026</small>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Read Article</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Post 6 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card card-custom shadow-sm border-0 h-100">
+                <div class="bg-dark d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <i class="fas fa-code fa-4x text-white opacity-50"></i>
+                </div>
+                <div class="card-body p-4">
+                    <span class="badge bg-dark mb-2">Platform Updates</span>
+                    <h5 class="fw-bold mb-3">New Features: Enhanced Analytics Dashboard</h5>
+                    <p class="text-muted mb-3">
+                        We've launched powerful new analytics tools to help you track and optimize your 
+                        investment performance. Here's what's new.
+                    </p>
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 0.8rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <small class="text-muted">Product Team • Jan 28, 2026</small>
+                    </div>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Read Article</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Section -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card card-custom shadow-sm border-0 bg-light">
+                <div class="card-body text-center p-5">
+                    <i class="fas fa-envelope fa-3x text-primary mb-3"></i>
+                    <h3 class="fw-bold mb-3">Subscribe to Our Newsletter</h3>
+                    <p class="text-muted mb-4">Get the latest articles, insights, and updates delivered to your inbox every week.</p>
+                    <form id="blogNewsletterForm">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                            <input type="email" class="form-control" id="blogNewsletterEmail" placeholder="Enter your email" style="max-width: 400px; min-width: 280px; height: 52px; border-radius: 8px; border: 2px solid #E5E7EB;" required>
+                            <button type="submit" class="btn btn-primary" id="blogNewsletterBtn" style="height: 52px; padding: 0 2.5rem; border-radius: 8px; font-weight: 600; white-space: nowrap;">Subscribe</button>
+                        </div>
+                        <div id="blogNewsletterMessage" class="mt-3" style="display: none;"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const blogNewsletterForm = document.getElementById('blogNewsletterForm');
+    if (blogNewsletterForm) {
+        blogNewsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('blogNewsletterEmail');
+            const submitBtn = document.getElementById('blogNewsletterBtn');
+            const messageDiv = document.getElementById('blogNewsletterMessage');
+            const email = emailInput.value.trim();
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Subscribing...';
+            messageDiv.style.display = 'none';
+            
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            
+            fetch('{% url "newsletter_subscribe" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': csrfToken
+                },
+                body: 'email=' + encodeURIComponent(email)
+            })
+            .then(response => response.json())
+            .then(data => {
+                messageDiv.style.display = 'block';
+                if (data.success) {
+                    messageDiv.className = 'mt-3 alert alert-success';
+                    messageDiv.innerHTML = '<i class="fas fa-check-circle me-2"></i>' + data.message;
+                    emailInput.value = '';
+                } else {
+                    messageDiv.className = 'mt-3 alert alert-warning';
+                    messageDiv.innerHTML = '<i class="fas fa-exclamation-circle me-2"></i>' + data.message;
+                }
+                
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Subscribe';
+                
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                messageDiv.style.display = 'block';
+                messageDiv.className = 'mt-3 alert alert-danger';
+                messageDiv.innerHTML = '<i class="fas fa-times-circle me-2"></i>An error occurred. Please try again.';
+                
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Subscribe';
+            });
+        });
+    }
+});
+</script>
+
+{% endblock %}

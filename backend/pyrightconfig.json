@@ -1,0 +1,26 @@
+{
+    "venvPath": "../",
+    "venv": "venv",
+    "include": [
+        "core"
+    ],
+    "exclude": [
+        "**/node_modules",
+        "**/__pycache__"
+    ],
+    "extraPaths": [
+        "../venv/Lib/site-packages",
+        "."
+    ],
+    "reportMissingImports": "none",
+    "reportMissingTypeStubs": "none",
+    "executionEnvironments": [
+        {
+            "root": ".",
+            "extraPaths": [
+                "../venv/Lib/site-packages",
+                "."
+            ]
+        }
+    ]
+}

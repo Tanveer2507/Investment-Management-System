@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}My Watchlist - Investment Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">My Watchlist</h2>
+            <p class="text-muted mb-0">Track startups you're interested in.</p>
+        </div>
+        <a href="{% url 'startup_list' %}" class="btn btn-outline-primary rounded-pill">
+            <i class="fas fa-search me-2"></i>Browse Startups
+        </a>
+    </div>
+
+    {% if watchlist_items %}
+    <div class="row g-4">
+        {% for item in watchlist_items %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom h-100 border-0 shadow-sm transition-hover">
+                <div class="position-relative">
+                    {% if item.startup.image %}
+                    <img src="{{ item.startup.image.url }}" class="card-img-top" alt="{{ item.startup.name }}"
+                        style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fas fa-building fa-3x text-muted opacity-50"></i>
+                    </div>
+                    {% endif %}
+                    <span class="position-absolute top-0 end-0 m-3 badge bg-white text-dark shadow-sm">
+                        {{ item.startup.industry }}
+                    </span>
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title fw-bold mb-0 text-truncate">{{ item.startup.name }}</h5>
+                        <small class="text-muted text-nowrap"><i class="far fa-calendar-alt me-1"></i>{{
+                            item.added_at|date:"M d" }}</small>
+                    </div>
+
+                    <p class="card-text text-muted small line-clamp-2 mb-3">
+                        {{ item.startup.description|truncatechars:100 }}
+                    </p>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="d-flex align-items-center me-3">
+                            <i class="fas fa-user-circle text-muted me-1"></i>
+                            <small class="text-muted">{{ item.startup.founder }}</small>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'startup_detail' item.startup.pk %}"
+                            class="btn btn-outline-primary btn-sm rounded-pill">
+                            View Details
+                        </a>
+                        <a href="{% url 'toggle_watchlist' item.startup.pk %}"
+                            class="btn btn-light btn-sm rounded-pill text-danger">
+                            <i class="fas fa-trash-alt me-1"></i>Remove
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle"
+                style="width: 80px; height: 80px;">
+                <i class="far fa-bookmark fa-3x text-muted opacity-50"></i>
+            </div>
+        </div>
+        <h4 class="fw-bold text-muted">Your watchlist is empty</h4>
+        <p class="text-muted mb-4">Start following interesting startups to track them here.</p>
+        <a href="{% url 'startup_list' %}" class="btn btn-primary-custom px-4 py-2 fw-bold shadow-sm">
+            Explore Startups
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

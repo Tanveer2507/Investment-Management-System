@@ -1,0 +1,724 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings - Investment Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Sidebar Navigation -->
+        <div class="col-lg-3 mb-4">
+            <div class="card card-custom border-0 shadow-sm sticky-top" style="top: 130px;">
+                <div class="card-body p-3">
+                    <h6 class="text-uppercase text-muted fw-bold small mb-3 px-2">Settings</h6>
+                    <nav class="nav flex-column settings-nav">
+                        <a class="nav-link settings-nav-link active" href="#account" data-section="account">
+                            <i class="fas fa-user-circle me-2"></i>Account
+                        </a>
+                        <a class="nav-link settings-nav-link" href="#security" data-section="security">
+                            <i class="fas fa-lock me-2"></i>Security
+                        </a>
+                        <a class="nav-link settings-nav-link" href="#notifications" data-section="notifications">
+                            <i class="fas fa-bell me-2"></i>Notifications
+                        </a>
+                        <a class="nav-link settings-nav-link" href="#preferences" data-section="preferences">
+                            <i class="fas fa-sliders-h me-2"></i>Preferences
+                        </a>
+                        <a class="nav-link settings-nav-link" href="#privacy" data-section="privacy">
+                            <i class="fas fa-shield-alt me-2"></i>Privacy
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <!-- Account Section -->
+            <div class="settings-section active" id="account">
+                <div class="card card-custom border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h5 class="mb-0 fw-bold text-primary-custom">
+                            <i class="fas fa-user-circle me-2"></i>Account Information
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{% url 'settings' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="account">
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Username</label>
+                                    <input type="text" class="form-control" name="username" value="{{ user.username }}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Email Address</label>
+                                    <input type="email" class="form-control" name="email" value="{{ user.email }}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">First Name</label>
+                                    <input type="text" class="form-control" name="first_name" value="{{ user.first_name }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Last Name</label>
+                                    <input type="text" class="form-control" name="last_name" value="{{ user.last_name }}">
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                                <button type="submit" class="btn btn-primary-custom">
+                                    <i class="fas fa-save me-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="settings-section" id="security">
+                <div class="card card-custom border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h5 class="mb-0 fw-bold text-primary-custom">
+                            <i class="fas fa-lock me-2"></i>Security Settings
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold mb-3">Change Password</h6>
+                        <form method="post" action="{% url 'settings' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="password">
+                            
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label fw-bold">Current Password</label>
+                                    <input type="password" class="form-control" name="old_password" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">New Password</label>
+                                    <input type="password" class="form-control" name="new_password1" required>
+                                    <small class="text-muted">At least 8 characters</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Confirm New Password</label>
+                                    <input type="password" class="form-control" name="new_password2" required>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                                <button type="submit" class="btn btn-primary-custom">
+                                    <i class="fas fa-key me-2"></i>Update Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="settings-section" id="notifications">
+                <div class="card card-custom border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h5 class="mb-0 fw-bold text-primary-custom">
+                            <i class="fas fa-bell me-2"></i>Notification Preferences
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{% url 'settings' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="notifications">
+                            
+                            <h6 class="fw-bold mb-3">Email Notifications</h6>
+                            <div class="mb-3">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="emailInvestments" name="email_investments" {% if profile.email_investments %}checked{% endif %}>
+                                    <label class="form-check-label" for="emailInvestments">
+                                        New investment opportunities
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="emailStartups" name="email_startups" {% if profile.email_startups %}checked{% endif %}>
+                                    <label class="form-check-label" for="emailStartups">
+                                        Startup updates and milestones
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="emailMarket" name="email_market" {% if profile.email_market %}checked{% endif %}>
+                                    <label class="form-check-label" for="emailMarket">
+                                        Market trends and analysis
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="emailWeekly" name="email_weekly" {% if profile.email_weekly %}checked{% endif %}>
+                                    <label class="form-check-label" for="emailWeekly">
+                                        Weekly portfolio summary
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h6 class="fw-bold mb-3">Push Notifications</h6>
+                            <div class="mb-3">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="pushWatchlist" name="push_watchlist" {% if profile.push_watchlist %}checked{% endif %}>
+                                    <label class="form-check-label" for="pushWatchlist">
+                                        Watchlist updates
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="pushMessages" name="push_messages" {% if profile.push_messages %}checked{% endif %}>
+                                    <label class="form-check-label" for="pushMessages">
+                                        Messages and alerts
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                                <button type="submit" class="btn btn-primary-custom">
+                                    <i class="fas fa-save me-2"></i>Save Preferences
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferences Section -->
+            <div class="settings-section" id="preferences">
+                <div class="card card-custom border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h5 class="mb-0 fw-bold text-primary-custom">
+                            <i class="fas fa-sliders-h me-2"></i>Display Preferences
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{% url 'settings' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="preferences">
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Language</label>
+                                    <select class="form-select" name="language">
+                                        <option value="en" {% if profile.language == 'en' %}selected{% endif %}>English</option>
+                                        <option value="es" {% if profile.language == 'es' %}selected{% endif %}>Español</option>
+                                        <option value="fr" {% if profile.language == 'fr' %}selected{% endif %}>Français</option>
+                                        <option value="de" {% if profile.language == 'de' %}selected{% endif %}>Deutsch</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Currency</label>
+                                    <select class="form-select" name="currency">
+                                        <option value="USD" {% if profile.currency == 'USD' %}selected{% endif %}>USD ($)</option>
+                                        <option value="EUR" {% if profile.currency == 'EUR' %}selected{% endif %}>EUR (€)</option>
+                                        <option value="GBP" {% if profile.currency == 'GBP' %}selected{% endif %}>GBP (£)</option>
+                                        <option value="JPY" {% if profile.currency == 'JPY' %}selected{% endif %}>JPY (¥)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Timezone</label>
+                                    <select class="form-select" name="timezone">
+                                        <option value="UTC" {% if profile.timezone == 'UTC' %}selected{% endif %}>UTC</option>
+                                        <option value="EST" {% if profile.timezone == 'EST' %}selected{% endif %}>Eastern Time (EST)</option>
+                                        <option value="PST" {% if profile.timezone == 'PST' %}selected{% endif %}>Pacific Time (PST)</option>
+                                        <option value="GMT" {% if profile.timezone == 'GMT' %}selected{% endif %}>GMT</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Date Format</label>
+                                    <select class="form-select" name="date_format">
+                                        <option value="mdy" {% if profile.date_format == 'mdy' %}selected{% endif %}>MM/DD/YYYY</option>
+                                        <option value="dmy" {% if profile.date_format == 'dmy' %}selected{% endif %}>DD/MM/YYYY</option>
+                                        <option value="ymd" {% if profile.date_format == 'ymd' %}selected{% endif %}>YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h6 class="fw-bold mb-3">Dashboard Settings</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="showCharts" name="show_charts" {% if profile.show_charts %}checked{% endif %}>
+                                <label class="form-check-label" for="showCharts">
+                                    Show charts and graphs
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="compactView" name="compact_view" {% if profile.compact_view %}checked{% endif %}>
+                                <label class="form-check-label" for="compactView">
+                                    Use compact view
+                                </label>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                                <button type="submit" class="btn btn-primary-custom">
+                                    <i class="fas fa-save me-2"></i>Save Preferences
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy Section -->
+            <div class="settings-section" id="privacy">
+                <div class="card card-custom border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white border-bottom py-3">
+                        <h5 class="mb-0 fw-bold text-primary-custom">
+                            <i class="fas fa-shield-alt me-2"></i>Privacy & Data
+                        </h5>
+                    </div>
+                    <div class="card-body p-4">
+                        <form method="post" action="{% url 'settings' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="section" value="privacy">
+                            
+                            <h6 class="fw-bold mb-3">Profile Visibility</h6>
+                            <div class="mb-4">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="profile_visibility" id="visibilityPublic" value="public" {% if profile.profile_visibility == 'public' %}checked{% endif %}>
+                                    <label class="form-check-label" for="visibilityPublic">
+                                        <strong>Public</strong> - Anyone can view your profile
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="profile_visibility" id="visibilityPrivate" value="private" {% if profile.profile_visibility == 'private' %}checked{% endif %}>
+                                    <label class="form-check-label" for="visibilityPrivate">
+                                        <strong>Private</strong> - Only you can view your profile
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+                                <button type="submit" class="btn btn-primary-custom">
+                                    <i class="fas fa-save me-2"></i>Save Privacy Settings
+                                </button>
+                            </div>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <h6 class="fw-bold mb-3">Data Management</h6>
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn btn-outline-primary text-start" id="downloadDataBtn">
+                                <i class="fas fa-download me-2"></i>Download your data
+                            </button>
+                            <button class="btn btn-outline-warning text-start" id="archiveAccountBtn">
+                                <i class="fas fa-archive me-2"></i>Archive account
+                            </button>
+                            <button class="btn btn-outline-danger text-start" id="deleteAccountBtn">
+                                <i class="fas fa-trash-alt me-2"></i>Delete account
+                            </button>
+                        </div>
+
+                        <div class="alert alert-warning mt-4 mb-0">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Warning:</strong> Deleting your account is permanent and cannot be undone.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+/* Settings Navigation */
+.settings-nav-link {
+    padding: 0.75rem 1rem;
+    color: #6B7280;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+.settings-nav-link:hover {
+    background-color: #F3F4F6;
+    color: var(--primary-color);
+}
+
+.settings-nav-link.active {
+    background-color: #EEF2FF;
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.settings-nav-link i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Settings Sections */
+.settings-section {
+    display: none;
+}
+
+.settings-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+/* Messages Container Responsive */
+@media (max-width: 768px) {
+    #messagesContainer {
+        bottom: 20px !important;
+        right: 20px !important;
+        left: 20px !important;
+        max-width: calc(100% - 40px) !important;
+    }
+}
+
+/* Form Styling */
+.settings-section .form-control,
+.settings-section .form-select {
+    height: 45px;
+    padding: 0.75rem 1rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.settings-section .form-control:focus,
+.settings-section .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.settings-section .form-check-input {
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid #D1D5DB;
+    cursor: pointer;
+}
+
+.settings-section .form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.settings-section .form-check-label {
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .sticky-top {
+        position: relative !important;
+        top: 0 !important;
+    }
+    
+    .settings-nav {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .settings-nav-link {
+        white-space: nowrap;
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .settings-nav-link {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .settings-nav-link i {
+        font-size: 0.875rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    .twofa-container {
+        padding: 1rem !important;
+    }
+    
+    .twofa-container .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+    }
+    
+    .twofa-container .form-check {
+        margin-top: 1rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle navigation clicks
+    const navLinks = document.querySelectorAll('.settings-nav-link');
+    const sections = document.querySelectorAll('.settings-section');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all links and sections
+            navLinks.forEach(l => l.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Show corresponding section
+            const sectionId = this.getAttribute('data-section');
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update URL hash without scrolling
+            history.pushState(null, null, '#' + sectionId);
+        });
+    });
+    
+    // Handle initial hash on page load
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+        const targetLink = document.querySelector(`[data-section="${hash}"]`);
+        if (targetLink) {
+            targetLink.click();
+        }
+    }
+    
+    // Data Management Buttons
+    const downloadDataBtn = document.getElementById('downloadDataBtn');
+    const archiveAccountBtn = document.getElementById('archiveAccountBtn');
+    const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+    
+    // Download Data
+    downloadDataBtn.addEventListener('click', function() {
+        const btn = this;
+        const originalHTML = btn.innerHTML;
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Preparing download...';
+        
+        // Simulate data preparation
+        setTimeout(() => {
+            // Create a sample JSON file with user data
+            const userData = {
+                username: '{{ user.username }}',
+                email: '{{ user.email }}',
+                first_name: '{{ user.first_name }}',
+                last_name: '{{ user.last_name }}',
+                date_joined: '{{ user.date_joined|date:"Y-m-d H:i:s" }}',
+                profile_settings: {
+                    language: '{{ profile.language }}',
+                    timezone: '{{ profile.timezone }}',
+                    currency: '{{ profile.currency }}',
+                    profile_visibility: '{{ profile.profile_visibility }}'
+                },
+                export_date: new Date().toISOString()
+            };
+            
+            // Create blob and download
+            const blob = new Blob([JSON.stringify(userData, null, 2)], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'my_data_' + new Date().getTime() + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            btn.disabled = false;
+            btn.innerHTML = originalHTML;
+            showToast('Your data has been downloaded successfully!', 'success');
+        }, 2000);
+    });
+    
+    // Archive Account
+    archiveAccountBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to archive your account? You can reactivate it later by logging in.')) {
+            const btn = this;
+            const originalHTML = btn.innerHTML;
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Archiving...';
+            
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                showToast('Account archived successfully. You can reactivate anytime.', 'info');
+            }, 2000);
+        }
+    });
+    
+    // Delete Account
+    deleteAccountBtn.addEventListener('click', function() {
+        const password = prompt('This action is permanent! Enter your password to confirm account deletion:');
+        
+        if (password) {
+            if (confirm('⚠️ FINAL WARNING: This will permanently delete your account and all data. This cannot be undone. Are you absolutely sure?')) {
+                const btn = this;
+                const originalHTML = btn.innerHTML;
+                
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Deleting...';
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHTML;
+                    showToast('Account deletion initiated. You will be logged out shortly.', 'warning');
+                    
+                    // Redirect to logout after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = '/logout/';
+                    }, 3000);
+                }, 2000);
+            }
+        }
+    });
+    
+    // Toast notification function
+    function showToast(message, type = 'info') {
+        const existing = document.querySelector('.settings-toast');
+        if (existing) {
+            existing.remove();
+        }
+        
+        const toast = document.createElement('div');
+        toast.className = `settings-toast toast-${type}`;
+        
+        const icons = {
+            success: 'fa-check-circle',
+            error: 'fa-times-circle',
+            info: 'fa-info-circle',
+            warning: 'fa-exclamation-triangle'
+        };
+        
+        toast.innerHTML = `
+            <i class="fas ${icons[type] || icons.info}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => toast.classList.add('show'), 10);
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
+    // Add toast styles
+    const toastStyle = document.createElement('style');
+    toastStyle.textContent = `
+        .settings-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+        
+        .settings-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .settings-toast i {
+            font-size: 1.25rem;
+        }
+        
+        .settings-toast.toast-success {
+            border-left: 4px solid #10B981;
+        }
+        
+        .settings-toast.toast-success i {
+            color: #10B981;
+        }
+        
+        .settings-toast.toast-error {
+            border-left: 4px solid #EF4444;
+        }
+        
+        .settings-toast.toast-error i {
+            color: #EF4444;
+        }
+        
+        .settings-toast.toast-info {
+            border-left: 4px solid #3B82F6;
+        }
+        
+        .settings-toast.toast-info i {
+            color: #3B82F6;
+        }
+        
+        .settings-toast.toast-warning {
+            border-left: 4px solid #F59E0B;
+        }
+        
+        .settings-toast.toast-warning i {
+            color: #F59E0B;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-toast {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+            }
+        }
+    `;
+    document.head.appendChild(toastStyle);
+});
+</script>
+{% endblock %}

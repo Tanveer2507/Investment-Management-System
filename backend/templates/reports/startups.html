@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Startups Report{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="reports-hero d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="m-0">Startups Report</h3>
+            <div class="text-muted small">Explore registered startups, filter and export</div>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <a href="{% url 'reports_overview' %}" class="btn btn-outline-secondary">Overview</a>
+        </div>
+    </div>
+
+    <div class="report-card">
+        <div class="overview-cards mb-3">
+            <div class="stat-card stat-gradient-2">
+                <div>
+                    <div class="stat-icon bg-white text-success"><i class="fas fa-rocket"></i></div>
+                    <div class="stat-title">Total Startups</div>
+                    <div class="stat-value">{{ total_startups }}</div>
+                    <div class="stat-sub">Matching filters</div>
+                </div>
+            </div>
+            <div class="stat-card stat-gradient-1">
+                <div>
+                    <div class="stat-icon bg-white text-primary"><i class="fas fa-industry"></i></div>
+                    <div class="stat-title">Industries</div>
+                    <div class="stat-value">{{ distinct_industries }}</div>
+                    <div class="stat-sub">Distinct sectors</div>
+                </div>
+            </div>
+            <div class="stat-card stat-gradient-3">
+                <div>
+                    <div class="stat-icon bg-white text-warning"><i class="fas fa-clock"></i></div>
+                    <div class="stat-title">Recently Added</div>
+                    <div class="stat-value">{{ startups|length }}</div>
+                    <div class="stat-sub">Showing recent results</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <h6 class="mb-2">Top Industries</h6>
+            <div class="d-flex gap-2 flex-wrap">
+                {% for ind in top_industries %}
+                <div class="px-3 py-2 bg-light rounded">{{ ind.industry }} — {{ ind.count }}</div>
+                {% empty %}
+                <div class="text-muted">No industry data</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <form method="get" class="row g-2 align-items-end mb-3 filter-form">
+            <div class="col-md-4">
+                <label class="form-label small">Search</label>
+                <input name="q" value="{{ q }}" class="form-control" placeholder="Name, founder, industry">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small">Industry</label>
+                <input name="industry" value="{{ industry }}" class="form-control" placeholder="Industry">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small">Sort</label>
+                <select name="order" class="form-select">
+                    <option value="-created_at" {% if order == '-created_at' %}selected{% endif %}>Newest</option>
+                    <option value="created_at" {% if order == 'created_at' %}selected{% endif %}>Oldest</option>
+                    <option value="name" {% if order == 'name' %}selected{% endif %}>Name A-Z</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-primary">Filter</button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped report-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Founder</th>
+                        <th>Industry</th>
+                        <th>Founded</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in startups %}
+                    <tr>
+                        <td>{{ s.name }}</td>
+                        <td>{{ s.founder }}</td>
+                        <td>{{ s.industry }}</td>
+                        <td>{{ s.founded_date }}</td>
+                        <td><a href="{% url 'startup_detail' s.pk %}" class="btn btn-sm btn-outline-primary">View</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5">No startups found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

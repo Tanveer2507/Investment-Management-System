@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Investment Management System{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Startup Chart
+        const startupCtx = document.getElementById('startupChart').getContext('2d');
+        new Chart(startupCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ startup_labels| safe }},
+        datasets: [{
+            label: 'Investment Amount ($)',
+            data: {{ startup_values| safe }},
+        backgroundColor: 'rgba(30, 58, 138, 0.7)',
+        borderColor: 'rgba(30, 58, 138, 1)',
+        borderWidth: 1,
+        borderRadius: 5
+                }]
+            },
+        options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+        });
+
+    // Stage Chart
+    const stageCtx = document.getElementById('stageChart').getContext('2d');
+    new Chart(stageCtx, {
+        type: 'doughnut',
+        data: {
+            labels: {{ stage_labels| safe }},
+        datasets: [{
+            data: {{ stage_values| safe }},
+        backgroundColor: [
+            '#10B981', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6'
+        ],
+        borderWidth: 0
+                }]
+            },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right' }
+        }
+    }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h2 class="fw-bold text-primary-custom">Dashboard</h2>
+            <p class="text-muted">Welcome back, {{ user.username }}!</p>
+        </div>
+        <div>
+            <a href="{% url 'add_investment' %}" class="btn btn-primary-custom me-2">
+                <i class="fas fa-plus me-2"></i>New Investment
+            </a>
+            <a href="{% url 'add_startup' %}" class="btn btn-outline-primary">
+                <i class="fas fa-building me-2"></i>Add Startup
+            </a>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom p-4 stat-card">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-light p-3 rounded-circle text-primary-custom">
+                        <i class="fas fa-wallet fa-2x"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Total Investment</h6>
+                        <h3 class="fw-bold text-primary-custom">${{ total_investment|floatformat:2 }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom p-4 stat-card" style="border-left-color: var(--secondary-color);">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-light p-3 rounded-circle text-secondary-custom">
+                        <i class="fas fa-cubes fa-2x"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Total Startups</h6>
+                        <h3 class="fw-bold text-secondary-custom">{{ total_startups }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-custom p-4 stat-card" style="border-left-color: #F59E0B;">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 bg-light p-3 rounded-circle text-warning">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="text-muted mb-1">Avg. Investment/Startup</h6>
+                        <h3 class="fw-bold text-warning">
+                            {% if total_startups %}
+                            ${{ total_investment|divisibleby:total_startups|floatformat:2 }}
+                            {% else %}
+                            $0.00
+                            {% endif %}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card card-custom mb-5">
+        <div class="card-header bg-white border-0 py-3">
+            <h5 class="fw-bold mb-0 text-primary-custom"><i class="fas fa-history me-2"></i>Recent Investment Activity
+            </h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light text-muted">
+                        <tr>
+                            <th class="ps-4">Startup</th>
+                            <th>Date</th>
+                            <th>Stage</th>
+                            <th>Amount</th>
+                            <th>Equity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for investment in recent_investments %}
+                        <tr>
+                            <td class="ps-4 fw-medium text-dark">{{ investment.startup.name }}</td>
+                            <td>{{ investment.date|date:"M d, Y" }}</td>
+                            <td>
+                                <span
+                                    class="badge rounded-pill bg-soft-primary text-primary-custom border border-primary text-uppercase"
+                                    style="font-size: 0.7rem;">
+                                    {{ investment.stage }}
+                                </span>
+                            </td>
+                            <td class="fw-bold text-success">${{ investment.amount|floatformat:2 }}</td>
+                            <td>{{ investment.equity_percentage }}%</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">No investments found. Start by adding
+                                one!</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white border-0 py-3 text-center">
+            <a href="{% url 'portfolio' %}" class="text-decoration-none fw-bold text-primary-custom">View All
+                Investments <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

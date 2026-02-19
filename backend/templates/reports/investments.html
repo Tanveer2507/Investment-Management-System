@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Investments Report{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="reports-hero d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="m-0">Investments Report</h3>
+            <div class="text-muted small">Detailed investments with search, filters and export</div>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            <a href="{% url 'reports_overview' %}" class="btn btn-outline-secondary">Overview</a>
+        </div>
+    </div>
+
+    <div class="report-card">
+        <div class="overview-cards mb-3">
+            <div class="stat-card stat-gradient-1">
+                <div>
+                    <div class="stat-icon bg-white text-primary"><i class="fas fa-dollar-sign"></i></div>
+                    <div class="stat-title">Total Investment</div>
+                    <div class="stat-value">${{ total_investment }}</div>
+                    <div class="stat-sub">Across filters</div>
+                </div>
+            </div>
+            <div class="stat-card stat-gradient-2">
+                <div>
+                    <div class="stat-icon bg-white text-success"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-title">Investments</div>
+                    <div class="stat-value">{{ investments_count }}</div>
+                    <div class="stat-sub">Records matching filters</div>
+                </div>
+            </div>
+            <div class="stat-card stat-gradient-3">
+                <div>
+                    <div class="stat-icon bg-white text-warning"><i class="fas fa-rocket"></i></div>
+                    <div class="stat-title">Startups</div>
+                    <div class="stat-value">{{ distinct_startups }}</div>
+                    <div class="stat-sub">Distinct startups</div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <h6 class="mb-2">Top Startups</h6>
+            <div class="d-flex gap-2 flex-wrap">
+                {% for s in top_startups %}
+                <div class="px-3 py-2 bg-light rounded">{{ s.startup__name }} — ${{ s.total }}</div>
+                {% empty %}
+                <div class="text-muted">No data</div>
+                {% endfor %}
+            </div>
+        </div>
+        <form method="get" class="row g-2 align-items-end mb-3">
+            <div class="col-md-3">
+                <label class="form-label small">Search</label>
+                <input name="q" value="{{ q }}" class="form-control" placeholder="Startup or investor">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small">Stage</label>
+                <select name="stage" class="form-select">
+                    <option value="">All</option>
+                    <option value="Seed" {% if stage == 'Seed' %}selected{% endif %}>Seed</option>
+                    <option value="Series A" {% if stage == 'Series A' %}selected{% endif %}>Series A</option>
+                    <option value="Series B" {% if stage == 'Series B' %}selected{% endif %}>Series B</option>
+                    <option value="Series C" {% if stage == 'Series C' %}selected{% endif %}>Series C</option>
+                    <option value="IPO" {% if stage == 'IPO' %}selected{% endif %}>IPO</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small">From</label>
+                <input type="date" name="start_date" value="{{ start_date }}" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small">To</label>
+                <input type="date" name="end_date" value="{{ end_date }}" class="form-control">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small">Sort</label>
+                <select name="order" class="form-select">
+                    <option value="-date" {% if order == '-date' %}selected{% endif %}>Newest</option>
+                    <option value="date" {% if order == 'date' %}selected{% endif %}>Oldest</option>
+                    <option value="-amount" {% if order == '-amount' %}selected{% endif %}>Amount desc</option>
+                    <option value="amount" {% if order == 'amount' %}selected{% endif %}>Amount asc</option>
+                </select>
+            </div>
+            <div class="col-md-1 d-grid">
+                <button class="btn btn-primary">Filter</button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped report-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Investor</th>
+                        <th>Startup</th>
+                        <th>Stage</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inv in investments %}
+                    <tr>
+                        <td>{{ inv.date }}</td>
+                        <td>{{ inv.investor.username }}</td>
+                        <td><a href="{% url 'startup_detail' inv.startup.pk %}">{{ inv.startup.name }}</a></td>
+                        <td>{{ inv.stage }}</td>
+                        <td class="text-end">${{ inv.amount }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5">No investments found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-3 text-end">Total: <strong>${{ total_investment }}</strong></div>
+    </div>
+</div>
+{% endblock %}

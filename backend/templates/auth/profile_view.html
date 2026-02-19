@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom p-4">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar" style="width:72px;height:72px;font-size:22px">{{ user.username|first|upper }}</div>
+                    <div>
+                        <h4 class="mb-0">{{ user.get_full_name|default:user.username }}</h4>
+                        <div class="text-muted">{{ user.email }}</div>
+                    </div>
+                    <div class="ms-auto">
+                        <a href="{% url 'profile_edit' %}" class="btn btn-outline-secondary">Edit Profile</a>
+                    </div>
+                </div>
+
+                <hr class="my-3">
+                <div class="d-flex gap-3">
+                    <div class="p-3 bg-light rounded-3 text-center" style="flex:1">
+                        <div class="text-muted small">Investments</div>
+                        <div class="h4 mb-0">{{ investments_count }}</div>
+                    </div>
+                    <div class="p-3 bg-light rounded-3 text-center" style="flex:1">
+                        <div class="text-muted small">Watchlist</div>
+                        <div class="h4 mb-0">{{ watchlist_count }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
