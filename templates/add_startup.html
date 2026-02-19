@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Startup - Investment Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom border-0 shadow-lg">
+                <div class="card-header bg-white border-bottom py-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="fw-bold text-primary-custom m-0">
+                            {% if object %}
+                            <i class="fas fa-edit me-2"></i>Edit Startup
+                            {% else %}
+                            <i class="fas fa-plus-circle me-2"></i>Add New Startup
+                            {% endif %}
+                        </h3>
+                        <a href="{% if object %}{% url 'startup_detail' object.pk %}{% else %}{% url 'portfolio' %}{% endif %}"
+                            class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+                            <i class="fas fa-times me-1"></i>Cancel
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} mb-4" role="alert">{{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger mb-4" role="alert">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+                    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+                        <div class="alert alert-danger mb-4" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>Please correct the errors below.
+                        </div>
+                        {% endif %}
+
+                        <div class="row g-4">
+                            <!-- Basic Info Section -->
+                            <div class="col-12">
+                                <h6 class="text-uppercase text-muted fw-bold small mb-3">Basic Information</h6>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="{{ form.name.id_for_label }}" class="form-label fw-bold">Startup
+                                    Name</label>
+                                {{ form.name }}
+                                <div class="invalid-feedback">{{ form.name.errors|striptags }}</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.industry.id_for_label }}"
+                                    class="form-label fw-bold">Industry</label>
+                                {{ form.industry }}
+                                <div class="invalid-feedback">{{ form.industry.errors|striptags }}</div>
+                            </div>
+
+                            <!-- Founder & Date -->
+                            <div class="col-md-6">
+                                <label for="{{ form.founder.id_for_label }}" class="form-label fw-bold">Founder
+                                    Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+                                    {{ form.founder }}
+                                </div>
+                                <div class="invalid-feedback">{{ form.founder.errors|striptags }}</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.founded_date.id_for_label }}" class="form-label fw-bold">Founded
+                                    Date</label>
+                                {{ form.founded_date }}
+                                <div class="invalid-feedback">{{ form.founded_date.errors|striptags }}</div>
+                            </div>
+
+                            <!-- Contact Info Section -->
+                            <div class="col-12 mt-4">
+                                <h6 class="text-uppercase text-muted fw-bold small mb-3 border-top pt-3">Contact Details
+                                </h6>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="{{ form.contact_email.id_for_label }}" class="form-label fw-bold">Email
+                                    Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-envelope"></i></span>
+                                    {{ form.contact_email }}
+                                </div>
+                                <div class="invalid-feedback">{{ form.contact_email.errors|striptags }}</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.website.id_for_label }}" class="form-label fw-bold">Website
+                                    URL</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light"><i class="fas fa-globe"></i></span>
+                                    {{ form.website }}
+                                </div>
+                                <div class="invalid-feedback">{{ form.website.errors|striptags }}</div>
+                            </div>
+
+                            <!-- Details Section -->
+                            <div class="col-12 mt-4">
+                                <h6 class="text-uppercase text-muted fw-bold small mb-3 border-top pt-3">Additional
+                                    Details</h6>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="{{ form.description.id_for_label }}"
+                                    class="form-label fw-bold">Description</label>
+                                {{ form.description }}
+                                <div class="form-text">Briefly describe what the startup does.</div>
+                                <div class="invalid-feedback">{{ form.description.errors|striptags }}</div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="{{ form.image.id_for_label }}" class="form-label fw-bold">Startup Logo /
+                                    Image</label>
+                                <div class="d-flex align-items-start gap-4 p-3 border rounded bg-light">
+                                    {% if object.image %}
+                                    <div class="position-relative">
+                                        <img src="{{ object.image.url }}" alt="Current Image" class="rounded shadow-sm"
+                                            style="width: 80px; height: 80px; object-fit: cover;">
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                                            Current
+                                        </span>
+                                    </div>
+                                    {% else %}
+                                    <div class="bg-white rounded d-flex align-items-center justify-content-center border"
+                                        style="width: 80px; height: 80px;">
+                                        <i class="fas fa-image text-muted fa-2x"></i>
+                                    </div>
+                                    {% endif %}
+                                    <div class="flex-grow-1">
+                                        {{ form.image }}
+                                        <div class="form-text small mt-2">Upload a high-quality image (JPG, PNG).</div>
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback">{{ form.image.errors|striptags }}</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
+                            <a href="{% if object %}{% url 'startup_detail' object.pk %}{% else %}{% url 'portfolio' %}{% endif %}"
+                                class="btn btn-light btn-lg px-4">Cancel</a>
+                            <button type="submit" class="btn btn-primary-custom btn-lg px-5 fw-bold shadow-sm">
+                                <i class="fas fa-save me-2"></i>{% if object %}Save Changes{% else %}Create Startup{% endif %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

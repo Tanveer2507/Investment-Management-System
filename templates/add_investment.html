@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Investment - Investment Management System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card card-custom p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold text-primary-custom">
+                        {% if selected_startup %}
+                            Invest in {{ selected_startup.name }}
+                        {% else %}
+                            Record Investment
+                        {% endif %}
+                    </h3>
+                    <a href="{% if selected_startup %}{% url 'startup_detail' selected_startup.id %}{% else %}{% url 'dashboard' %}{% endif %}" class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-arrow-left me-1"></i>Back
+                    </a>
+                </div>
+
+                {% if selected_startup %}
+                <div class="alert alert-info mb-4">
+                    <i class="fas fa-info-circle me-2"></i>
+                    You are investing in <strong>{{ selected_startup.name }}</strong> - {{ selected_startup.industry }}
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="{{ form.startup.id_for_label }}" class="form-label">Startup</label>
+                            {{ form.startup }}
+                            <div class="form-text">Select an existing startup or <a href="{% url 'add_startup' %}">add a
+                                    new one</a>.</div>
+                            {{ form.startup.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.date.id_for_label }}" class="form-label">Investment Date</label>
+                            {{ form.date }}
+                            {{ form.date.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.amount.id_for_label }}" class="form-label">Amount ($)</label>
+                            {{ form.amount }}
+                            {{ form.amount.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.equity_percentage.id_for_label }}" class="form-label">Equity (%)</label>
+                            {{ form.equity_percentage }}
+                            {{ form.equity_percentage.errors }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.stage.id_for_label }}" class="form-label">Funding Stage</label>
+                            {{ form.stage }}
+                            {{ form.stage.errors }}
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-secondary-custom px-4 py-2 fw-bold">
+                            <i class="fas fa-save me-2"></i>Save Investment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

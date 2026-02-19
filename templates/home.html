@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - Investment Management System{% endblock %}
+
+{% block content %}
+<section class="hero-section text-center text-white position-relative">
+    <canvas id="hero-canvas"></canvas>
+    <div class="container position-relative" style="z-index: 2;">
+        <h1 class="display-3 fw-bold mb-4">Investment Management System</h1>
+        <p class="lead mb-5 text-light opacity-75">Track startups, monitor growth, and make informed decisions with our
+            secure
+            platform.</p>
+
+        {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="btn btn-primary-custom btn-lg px-5 py-3 rounded-pill fw-bold">
+            Go to Dashboard <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+        {% else %}
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'register' %}" class="btn btn-primary-custom btn-lg px-5 py-3 rounded-pill fw-bold">
+                Get Started <i class="fas fa-user-plus ms-2"></i>
+            </a>
+            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold">
+                Login <i class="fas fa-sign-in-alt ms-2"></i>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4 text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-chart-pie fa-3x text-secondary-custom"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Portfolio Tracking</h3>
+                    <p class="text-muted">Keep all your startup investments in one place and monitor their performance
+                        over time.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4 text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-shield-alt fa-3x text-primary-custom"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Secure & Private</h3>
+                    <p class="text-muted">Your financial data is protected with enterprise-grade security and
+                        encryption.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-custom h-100 p-4 text-center">
+                    <div class="mb-3">
+                        <i class="fas fa-rocket fa-3x text-secondary-custom"></i>
+                    </div>
+                    <h3 class="fw-bold mb-3">Growth Insights</h3>
+                    <p class="text-muted">Analyze funding stages and equity distribution to maximize your ROI.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/hero-animation.js' %}"></script>
+{% endblock %}

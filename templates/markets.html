@@ -1,0 +1,947 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Markets Live - Investment Management System{% endblock %}
+
+{% block content %}
+<!-- Markets Live Hero Section -->
+<div class="markets-hero" style="padding-top: 140px !important; margin-top: 0 !important;">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="hero-content">
+                    <div class="title-with-live">
+                        <h1 class="hero-title" style="color: white !important; position: relative; z-index: 1;">Global Markets</h1>
+                        <div class="live-indicator">
+                            <span class="live-pulse"></span>
+                            <span class="live-text">LIVE</span>
+                        </div>
+                    </div>
+                    <p class="hero-subtitle">Real-time data • Advanced charts • Market insights</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="market-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Markets Open</span>
+                        <span class="stat-value">24/7</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Last Updated</span>
+                        <span class="stat-value" id="lastUpdate">Just now</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Ticker Tape Widget -->
+<div class="ticker-tape-wrapper market-widget" data-category="all indices stocks crypto forex commodities">
+    <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+        {
+            "symbols": [
+                {"proName": "FOREXCOM:SPXUSD", "title": "S&P 500"},
+                {"proName": "FOREXCOM:NSXUSD", "title": "NASDAQ"},
+                {"proName": "FOREXCOM:DJI", "title": "DOW JONES"},
+                {"proName": "BSE:SENSEX", "title": "SENSEX"},
+                {"proName": "NSE:NIFTY", "title": "NIFTY 50"},
+                {"proName": "FX_IDC:EURUSD", "title": "EUR/USD"},
+                {"proName": "FX_IDC:USDINR", "title": "USD/INR"},
+                {"proName": "BITSTAMP:BTCUSD", "title": "Bitcoin"},
+                {"proName": "BITSTAMP:ETHUSD", "title": "Ethereum"},
+                {"proName": "COMEX:GC1!", "title": "Gold"},
+                {"proName": "NYMEX:CL1!", "title": "Crude Oil"}
+            ],
+            "showSymbolLogo": true,
+            "colorTheme": "dark",
+            "isTransparent": false,
+            "displayMode": "adaptive",
+            "locale": "en"
+        }
+        </script>
+    </div>
+</div>
+
+<div class="container-fluid markets-container">
+    <!-- Quick Market Categories -->
+    <div class="market-categories market-widget" data-category="all indices stocks crypto forex commodities">
+        <button class="category-btn active" data-category="all">
+            <i class="fas fa-globe"></i>
+            <span>All Markets</span>
+        </button>
+        <button class="category-btn" data-category="indices">
+            <i class="fas fa-chart-line"></i>
+            <span>Indices</span>
+        </button>
+        <button class="category-btn" data-category="stocks">
+            <i class="fas fa-building"></i>
+            <span>Stocks</span>
+        </button>
+        <button class="category-btn" data-category="crypto">
+            <i class="fab fa-bitcoin"></i>
+            <span>Crypto</span>
+        </button>
+        <button class="category-btn" data-category="forex">
+            <i class="fas fa-dollar-sign"></i>
+            <span>Forex</span>
+        </button>
+        <button class="category-btn" data-category="commodities">
+            <i class="fas fa-coins"></i>
+            <span>Commodities</span>
+        </button>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="row g-4" id="marketContent">
+        <!-- Advanced Chart Section -->
+        <div class="col-lg-8 market-widget" data-category="all indices stocks crypto forex commodities">
+            <div class="market-card chart-card">
+                <div class="card-header-custom">
+                    <div class="header-left">
+                        <i class="fas fa-chart-area"></i>
+                        <h5>Advanced Chart</h5>
+                    </div>
+                    <div class="header-right">
+                        <button class="icon-btn" title="Fullscreen">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        <button class="icon-btn" title="Settings">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body-custom">
+                    <div class="tradingview-widget-container" style="height: 600px; width: 100%;">
+                        <div id="tradingview_advanced_chart" style="height: 100%; width: 100%;"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                        <script type="text/javascript">
+                            new TradingView.widget({
+                                "autosize": true,
+                                "symbol": "NASDAQ:AAPL",
+                                "interval": "D",
+                                "timezone": "Etc/UTC",
+                                "theme": "dark",
+                                "style": "1",
+                                "locale": "en",
+                                "enable_publishing": false,
+                                "allow_symbol_change": true,
+                                "container_id": "tradingview_advanced_chart",
+                                "backgroundColor": "rgba(13, 17, 23, 1)",
+                                "gridColor": "rgba(255, 255, 255, 0.06)",
+                                "hide_side_toolbar": false,
+                                "studies": ["STD;SMA"]
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Market Heatmap -->
+            <div class="market-card mt-4 market-widget" data-category="all stocks indices">
+                <div class="card-header-custom">
+                    <div class="header-left">
+                        <i class="fas fa-th"></i>
+                        <h5>Market Heatmap</h5>
+                    </div>
+                </div>
+                <div class="card-body-custom">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-stock-heatmap.js" async>
+                        {
+                            "exchanges": [],
+                            "dataSource": "SPX500",
+                            "grouping": "sector",
+                            "blockSize": "market_cap_basic",
+                            "blockColor": "change",
+                            "locale": "en",
+                            "symbolUrl": "",
+                            "colorTheme": "dark",
+                            "hasTopBar": false,
+                            "isDataSetEnabled": false,
+                            "isZoomEnabled": true,
+                            "hasSymbolTooltip": true,
+                            "width": "100%",
+                            "height": "400"
+                        }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar - Market Overview & Screener -->
+        <div class="col-lg-4 market-widget" data-category="all indices crypto commodities">
+            <!-- Market Overview -->
+            <div class="market-card">
+                <div class="card-header-custom">
+                    <div class="header-left">
+                        <i class="fas fa-list-ul"></i>
+                        <h5>Market Overview</h5>
+                    </div>
+                </div>
+                <div class="card-body-custom p-0">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+                        {
+                            "colorTheme": "dark",
+                            "dateRange": "12M",
+                            "showChart": true,
+                            "locale": "en",
+                            "largeChartUrl": "",
+                            "isTransparent": false,
+                            "showSymbolLogo": true,
+                            "showFloatingTooltip": false,
+                            "width": "100%",
+                            "height": "600",
+                            "tabs": [
+                                {
+                                    "title": "Indices",
+                                    "symbols": [
+                                        {"s": "FOREXCOM:SPXUSD", "d": "S&P 500"},
+                                        {"s": "FOREXCOM:NSXUSD", "d": "NASDAQ"},
+                                        {"s": "FOREXCOM:DJI", "d": "DOW 30"},
+                                        {"s": "BSE:SENSEX", "d": "SENSEX"},
+                                        {"s": "NSE:NIFTY", "d": "NIFTY 50"}
+                                    ]
+                                },
+                                {
+                                    "title": "Crypto",
+                                    "symbols": [
+                                        {"s": "BITSTAMP:BTCUSD", "d": "Bitcoin"},
+                                        {"s": "BITSTAMP:ETHUSD", "d": "Ethereum"},
+                                        {"s": "BINANCE:BNBUSD", "d": "BNB"},
+                                        {"s": "BINANCE:SOLUSD", "d": "Solana"}
+                                    ]
+                                },
+                                {
+                                    "title": "Commodities",
+                                    "symbols": [
+                                        {"s": "COMEX:GC1!", "d": "Gold"},
+                                        {"s": "COMEX:SI1!", "d": "Silver"},
+                                        {"s": "NYMEX:CL1!", "d": "Crude Oil"},
+                                        {"s": "NYMEX:NG1!", "d": "Natural Gas"}
+                                    ]
+                                }
+                            ]
+                        }
+                        </script>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Movers -->
+            <div class="market-card mt-4 market-widget" data-category="all stocks">
+                <div class="card-header-custom">
+                    <div class="header-left">
+                        <i class="fas fa-fire"></i>
+                        <h5>Top Movers</h5>
+                    </div>
+                </div>
+                <div class="card-body-custom">
+                    <div class="movers-list">
+                        <div class="mover-item gain">
+                            <div class="mover-info">
+                                <span class="mover-symbol">AAPL</span>
+                                <span class="mover-name">Apple Inc.</span>
+                            </div>
+                            <div class="mover-data">
+                                <span class="mover-price">$178.50</span>
+                                <span class="mover-change">+5.24%</span>
+                            </div>
+                        </div>
+                        <div class="mover-item gain">
+                            <div class="mover-info">
+                                <span class="mover-symbol">TSLA</span>
+                                <span class="mover-name">Tesla Inc.</span>
+                            </div>
+                            <div class="mover-data">
+                                <span class="mover-price">$245.80</span>
+                                <span class="mover-change">+4.15%</span>
+                            </div>
+                        </div>
+                        <div class="mover-item loss">
+                            <div class="mover-info">
+                                <span class="mover-symbol">NVDA</span>
+                                <span class="mover-name">NVIDIA Corp.</span>
+                            </div>
+                            <div class="mover-data">
+                                <span class="mover-price">$485.20</span>
+                                <span class="mover-change">-2.35%</span>
+                            </div>
+                        </div>
+                        <div class="mover-item gain">
+                            <div class="mover-info">
+                                <span class="mover-symbol">MSFT</span>
+                                <span class="mover-name">Microsoft Corp.</span>
+                            </div>
+                            <div class="mover-data">
+                                <span class="mover-price">$385.90</span>
+                                <span class="mover-change">+3.45%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forex Cross Rates -->
+    <div class="row mt-4 market-widget" data-category="all forex">
+        <div class="col-12">
+            <div class="market-card">
+                <div class="card-header-custom">
+                    <div class="header-left">
+                        <i class="fas fa-exchange-alt"></i>
+                        <h5>Forex Cross Rates</h5>
+                    </div>
+                </div>
+                <div class="card-body-custom p-0">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-cross-rates.js" async>
+                        {
+                            "width": "100%",
+                            "height": 400,
+                            "currencies": ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD", "INR"],
+                            "isTransparent": false,
+                            "colorTheme": "dark",
+                            "locale": "en"
+                        }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Economic Calendar -->
+    <div class="row mt-4 market-widget" data-category="all forex commodities">
+        <div class="col-12">
+            <div class="market-card">
+                <div class="card-header-custom">
+                    <div class="header-left">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h5>Economic Calendar</h5>
+                    </div>
+                </div>
+                <div class="card-body-custom p-0">
+                    <div class="tradingview-widget-container">
+                        <div class="tradingview-widget-container__widget"></div>
+                        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+                        {
+                            "colorTheme": "dark",
+                            "isTransparent": false,
+                            "width": "100%",
+                            "height": "400",
+                            "locale": "en",
+                            "importanceFilter": "0,1"
+                        }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Markets Live Page Styling - FORCE PROPER SPACING */
+.markets-hero {
+    background: linear-gradient(135deg, #0D1117 0%, #161B22 50%, #1C2128 100%) !important;
+    padding: 2rem 0 !important;
+    padding-top: 140px !important;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.title-with-live {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.hero-title {
+    font-size: 3rem !important;
+    font-weight: 800 !important;
+    color: white !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.live-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(239, 68, 68, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+}
+
+.live-pulse {
+    width: 10px;
+    height: 10px;
+    background: #EF4444;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    }
+}
+
+.live-text {
+    color: #EF4444;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 1px;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+}
+
+.market-stats {
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+}
+
+.ticker-tape-wrapper {
+    background: #0D1117;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.markets-container {
+    background: #0D1117;
+    padding: 2rem 1.5rem;
+    min-height: 100vh;
+}
+
+.market-categories {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+}
+
+.category-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.category-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.category-btn.active {
+    background: linear-gradient(135deg, #3B82F6, #2563EB);
+    border-color: #3B82F6;
+    color: white;
+}
+
+.market-card {
+    background: #161B22;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.card-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-left i {
+    color: #3B82F6;
+    font-size: 1.25rem;
+}
+
+.header-left h5 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+}
+
+.header-right {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.card-body-custom {
+    padding: 1.5rem;
+}
+
+.movers-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.mover-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.mover-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.mover-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.mover-symbol {
+    font-weight: 700;
+    font-size: 1rem;
+    color: white;
+}
+
+.mover-name {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.mover-data {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.mover-price {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: white;
+}
+
+.mover-change {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.mover-item.gain .mover-change {
+    color: #10B981;
+    background: rgba(16, 185, 129, 0.15);
+}
+
+.mover-item.loss .mover-change {
+    color: #EF4444;
+    background: rgba(239, 68, 68, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .markets-hero {
+        padding-top: 125px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .live-indicator {
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .live-text {
+        font-size: 0.75rem;
+    }
+    
+    .live-pulse {
+        width: 8px;
+        height: 8px;
+    }
+    
+    .market-stats {
+        justify-content: flex-start;
+        margin-top: 1rem;
+    }
+    
+    .markets-container {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .markets-hero {
+        padding-top: 120px;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .title-with-live {
+        gap: 0.75rem;
+    }
+    
+    .live-indicator {
+        padding: 0.35rem 0.7rem;
+    }
+    
+    .live-text {
+        font-size: 0.7rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .market-categories {
+        gap: 0.5rem;
+    }
+    
+    .category-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .card-header-custom {
+        padding: 1rem;
+    }
+    
+    .card-body-custom {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .markets-hero {
+        padding: 1.5rem 0;
+        padding-top: 115px;
+    }
+    
+    .hero-title {
+        font-size: 1.5rem;
+    }
+    
+    .title-with-live {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .live-indicator {
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .live-text {
+        font-size: 0.65rem;
+    }
+    
+    .live-pulse {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .market-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .category-btn span {
+        display: none;
+    }
+    
+    .category-btn {
+        padding: 0.6rem;
+        justify-content: center;
+    }
+}
+</style>
+
+<script>
+// Update last update time
+function updateTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    document.getElementById('lastUpdate').textContent = timeString;
+}
+
+setInterval(updateTime, 1000);
+updateTime();
+
+// Category filter functionality
+document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Remove active class from all buttons
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        // Add active class to clicked button
+        this.classList.add('active');
+        
+        // Get selected category
+        const category = this.getAttribute('data-category');
+        
+        // Get all market widgets
+        const widgets = document.querySelectorAll('.market-widget');
+        
+        let visibleCount = 0;
+        
+        // Filter widgets based on category
+        widgets.forEach(widget => {
+            const categories = widget.getAttribute('data-category');
+            
+            if (category === 'all' || categories.includes(category)) {
+                // Show widget with fade-in animation
+                widget.style.display = '';
+                widget.style.animation = 'fadeIn 0.5s ease';
+                visibleCount++;
+            } else {
+                // Hide widget
+                widget.style.display = 'none';
+            }
+        });
+        
+        // Show notification with count
+        showCategoryNotification(category, visibleCount);
+    });
+});
+
+// Function to show category notification
+function showCategoryNotification(category, count) {
+    // Remove existing notification if any
+    const existingNotification = document.querySelector('.category-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Create notification
+    const notification = document.createElement('div');
+    notification.className = 'category-notification';
+    
+    const categoryNames = {
+        'all': 'All Markets',
+        'indices': 'Indices Markets',
+        'stocks': 'Stock Markets',
+        'crypto': 'Cryptocurrency Markets',
+        'forex': 'Forex Markets',
+        'commodities': 'Commodities Markets'
+    };
+    
+    const categoryDescriptions = {
+        'all': 'Showing all market data and widgets',
+        'indices': 'S&P 500, NASDAQ, DOW, SENSEX, NIFTY',
+        'stocks': 'Top stocks, movers, and market heatmap',
+        'crypto': 'Bitcoin, Ethereum, BNB, and more',
+        'forex': 'Currency pairs and cross rates',
+        'commodities': 'Gold, Silver, Oil, Natural Gas'
+    };
+    
+    notification.innerHTML = `
+        <div class="notification-content">
+            <div class="notification-header">
+                <i class="fas fa-check-circle"></i>
+                <span class="notification-title">${categoryNames[category]}</span>
+            </div>
+            <div class="notification-description">${categoryDescriptions[category]}</div>
+        </div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remove notification after 4 seconds
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+    }, 4000);
+}
+
+// Add fadeIn animation and notification styles
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .category-notification {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, #10B981, #059669);
+        color: white;
+        padding: 1.25rem 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        z-index: 10000;
+        animation: slideInRight 0.3s ease;
+        transition: opacity 0.3s ease;
+        min-width: 320px;
+        max-width: 400px;
+    }
+    
+    .notification-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .notification-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .notification-header i {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .notification-title {
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+    
+    .notification-description {
+        font-size: 0.875rem;
+        opacity: 0.95;
+        line-height: 1.4;
+        padding-left: 2.25rem;
+    }
+    
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .category-notification {
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            min-width: auto;
+            max-width: none;
+            padding: 1rem;
+        }
+        
+        .notification-description {
+            padding-left: 0;
+            margin-top: 0.25rem;
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

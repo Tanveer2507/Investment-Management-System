@@ -1,0 +1,19 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/../venv/Scripts/python.exe",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/../venv/Lib/site-packages",
+        "${workspaceFolder}/core"
+    ],
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}",
+        "${workspaceFolder}/../venv/Lib/site-packages",
+        "${workspaceFolder}/core"
+    ],
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django",
+        "--disable=C0114,C0115,C0116,R0901"
+    ],
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true
+}
